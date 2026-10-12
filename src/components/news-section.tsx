@@ -60,7 +60,7 @@ export default function NewsSection() {
           placeholder="Cari berita berdasarkan judul atau ringkasan..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+          className="w-full p-3 rounded-lg border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-background text-foreground border-input"
         />
       </div>
 
@@ -87,17 +87,20 @@ export default function NewsSection() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredNews.map((news) => (
-            <div key={news.id} className="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
-              <img src={news.image} alt={news.title} className="w-full h-44 object-cover" />
-              <div className="p-4">
-                {/* Poin 3: Label Kategori */}
-                <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-semibold mb-2">
-                  {news.category}
-                </span>
-                <p className="text-xs text-gray-400 mb-1">{news.date}</p>
-                <h3 className="text-lg font-bold text-gray-800 mb-2">{news.title}</h3>
-                <p className="text-sm text-gray-600">{news.summary}</p>
-              </div>
+            <div key={news.id} className="border border-border bg-card text-card-foreground rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+            <img src={news.image} alt={news.title} className="w-full h-44 object-cover" />
+            <div className="p-4">
+              <span className="inline-block bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-200 text-xs px-2.5 py-0.5 rounded-full font-semibold mb-2">
+                {news.category}
+              </span>
+              <p className="text-xs text-muted-foreground mb-1">{news.date}</p>
+              
+              {/* Judul Berita */}
+              <h3 className="text-lg font-bold text-foreground mb-2">{news.title}</h3>
+              
+              {/* Ringkasan Berita */}
+              <p className="text-sm text-muted-foreground">{news.summary}</p>
+            </div>
             </div>
           ))}
         </div>
