@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusConnect – Portal Informasi Mahasiswa</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { ink: '#1B2559', paper: '#F6F7FB', sun: '#F4B63D', teal: '#0E8A8C', coral: '#E4553F' },
+          fontFamily: { display: ['"Bricolage Grotesque"', 'sans-serif'], body: ['"Source Sans 3"', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS tambahan -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-paper text-ink font-body antialiased">
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-ink/10">
+    <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="#beranda" class="font-display font-extrabold text-xl">Campus<span class="text-teal">Connect</span></a>
+      <ul class="flex items-center gap-6 text-sm font-semibold">
+        <li><a href="#beranda" class="hover:text-teal">Beranda</a></li>
+        <li><a href="#berita" class="hover:text-teal">Berita</a></li>
+        <!-- Nanti: Event, Prestasi -->
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== 1. HOMEPAGE / HERO ===== -->
+    <section id="beranda" class="bg-ink text-white">
+      <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-5 gap-10 items-center">
+        <div class="md:col-span-3">
+          <h1 class="font-display font-extrabold text-4xl md:text-6xl leading-tight">
+            Semua kabar kampus, dalam satu tempat.
+          </h1>
+          <p class="mt-5 text-lg text-white/80 max-w-xl">
+            CampusConnect membantu mahasiswa mengikuti berita akademik, kegiatan organisasi,
+            kompetisi, dan info beasiswa tanpa harus bertanya ke banyak grup chat.
+          </p>
+          <a href="#berita" class="inline-block mt-8 bg-sun text-ink font-semibold px-6 py-3 rounded-lg hover:brightness-95">
+            Lihat berita terbaru
+          </a>
+        </div>
+        <div class="md:col-span-2 hero-card bg-white/10 border border-white/20 rounded-2xl p-6">
+          <p class="font-display font-bold text-xl">Yang ada di portal ini</p>
+          <ul class="mt-4 space-y-3 text-white/90">
+            <li class="flex gap-3"><span class="w-2 h-2 mt-2 rounded-full bg-sun"></span>Berita akademik &amp; organisasi</li>
+            <li class="flex gap-3"><span class="w-2 h-2 mt-2 rounded-full bg-teal"></span>Info kompetisi &amp; beasiswa</li>
+            <li class="flex gap-3"><span class="w-2 h-2 mt-2 rounded-full bg-coral"></span>Agenda &amp; prestasi mahasiswa</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. BERITA TERBARU ===== -->
+    <section id="berita" class="max-w-6xl mx-auto px-4 py-16">
+      <h2 class="font-display font-extrabold text-3xl md:text-4xl">Berita Terbaru</h2>
+      <p class="mt-2 text-ink/70">Informasi terkini dari lingkungan kampus.</p>
+
+      <!-- Nanti: tempat filter kategori & search (tugas 4 & 5) -->
+
+      <!-- Kartu berita dibuat otomatis oleh js/script.js -->
+      <div id="news-grid" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-ink text-white/70 text-sm">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+      &copy; 2026 CampusConnect – Portal Informasi Mahasiswa
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/script.js"></script>
+</body>
+</html>

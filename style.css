@@ -1,0 +1,21 @@
+/* CSS tambahan di luar Tailwind */
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 4rem; }
+
+/* Kartu berita */
+.news-card {
+  transition: box-shadow .2s ease;
+}
+.news-card:hover { box-shadow: 0 10px 28px rgba(27, 37, 89, .14); }
+
+/* Batasi ringkasan maksimal 3 baris */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
