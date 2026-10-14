@@ -55,10 +55,12 @@ function buatKartu(ev) {
         <div><dt class="inline font-semibold">Lokasi:</dt> <dd class="inline">${ev.place}</dd></div>
         <div><dt class="inline font-semibold">Kuota:</dt> <dd class="inline">${ev.quota} peserta</dd></div>
       </dl>
-      <button type="button" class="btn-daftar mt-auto ${terdaftar ? 'opacity-60 cursor-default' : ''}"
-              data-id="${ev.id}" ${terdaftar ? "disabled" : ""} style="margin-top:1.25rem">
-        ${terdaftar ? "Sudah Terdaftar" : "Daftar Event"}
-      </button>
+        <div class="mt-auto pt-5">
+        <button type="button" class="btn-daftar ${terdaftar ? 'opacity-60 cursor-default' : ''}"
+                data-id="${ev.id}" ${terdaftar ? "disabled" : ""}>
+          ${terdaftar ? "Sudah Terdaftar" : "Daftar Event"}
+        </button>
+         </div>
     </article>`;
 }
 
