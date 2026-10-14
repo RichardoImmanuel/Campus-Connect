@@ -1,148 +1,111 @@
-/* =========================================
-   HALAMAN EVENT (event.html)
-   - Menampilkan daftar event + filter kategori
-   - Tombol Daftar Event membuka modal berisi form
-   - Validasi form dikerjakan oleh validasi-form.js
-   ========================================= */
+/* Event: daftar event, filter kategori/status, detail, dan pendaftaran */
+(function () {
+  "use strict";
 
-// Data event. Ganti dengan event kampus yang sebenarnya.
-const eventData = [
-  { id: 1, title: "Seminar Cybersecurity & Forensik",  date: "2026-10-20", time: "09.00 – 12.00 WIB", place: "Aula Utama",            category: "Akademik",   quota: 150, desc: "Pengenalan keamanan siber dan forensik digital bersama praktisi industri." },
-  { id: 2, title: "Lomba UI/UX Design Nasional",       date: "2026-10-25", time: "08.00 – 17.00 WIB", place: "Gedung Fakultas Teknik", category: "Kompetisi",  quota: 60,  desc: "Rancang prototipe aplikasi dalam satu hari, dinilai oleh desainer profesional." },
-  { id: 3, title: "Workshop Web Development",          date: "2026-11-01", time: "13.00 – 16.00 WIB", place: "Lab Komputer 2",         category: "Akademik",   quota: 40,  desc: "Belajar membangun website dengan HTML, CSS, Tailwind, dan JavaScript." },
-  { id: 4, title: "Open Recruitment BEM Fakultas",     date: "2026-11-10", time: "10.00 – 15.00 WIB", place: "Sekretariat BEM",        category: "Organisasi", quota: 100, desc: "Pendaftaran pengurus baru BEM Fakultas untuk periode kepengurusan berikutnya." },
-  { id: 5, title: "Sosialisasi Beasiswa LPDP",         date: "2026-11-15", time: "09.00 – 11.30 WIB", place: "Ruang Seminar Lt. 3",    category: "Beasiswa",   quota: 120, desc: "Penjelasan syarat, tahapan seleksi, dan tips menyiapkan berkas beasiswa." }
-];
+  const state = { kategori: "Semua", status: "Semua" };
+  const grid = document.getElementById("eventGrid");
+  const ringkasan = document.getElementById("ringkasan");
+  const modalDaftar = document.getElementById("modalPendaftaran");
+  const form = document.getElementById("formEvent");
+  const pilihan = document.getElementById("pilihanEvent");
 
-const KATEGORI = ["Semua", "Akademik", "Kompetisi", "Organisasi", "Beasiswa"];
+  const urut = eventsData.slice().sort(function (a, b) { return a.date.localeCompare(b.date); });
+  const kategori = ["Semua"].concat(urut.reduce(function (h, e) { if (h.indexOf(e.category) < 0) h.push(e.category); return h; }, []));
+  const daftarStatus = ["Semua", "akan", "berlangsung", "selesai"];
 
-// Kelas warna badge sudah ada di style.css
-const badgeKelas = {
-  Akademik: "badge-akademik",
-  Kompetisi: "badge-kompetisi",
-  Organisasi: "badge-organisasi",
-  Beasiswa: "badge-beasiswa"
-};
-
-let kategoriAktif = "Semua";
-const sudahDaftar = new Set(); // id event yang sudah didaftar (hanya selama halaman terbuka)
-
-const grid = document.getElementById("event-grid");
-const filterBox = document.getElementById("filter-event");
-const jumlahEl = document.getElementById("jumlah-event");
-const modal = document.getElementById("modalPendaftaran");
-const form = document.getElementById("formEvent");
-const pesanError = document.getElementById("pesanError");
-const pilihan = document.getElementById("pilihanEvent");
-
-// "2026-10-20" -> "Selasa, 20 Oktober 2026"
-function formatTanggal(str) {
-  return new Date(str + "T00:00:00").toLocaleDateString("id-ID", {
-    weekday: "long", day: "numeric", month: "long", year: "numeric"
+  // Isi pilihan event pada form dari data (nilai = nama event, seperti sebelumnya)
+  urut.forEach(function (e) {
+    const o = document.createElement("option");
+    o.value = e.title;
+    o.textContent = e.title;
+    pilihan.appendChild(o);
   });
-}
 
-function buatKartu(ev) {
-  const terdaftar = sudahDaftar.has(ev.id);
-  return `
-    <article class="bg-white rounded-xl border border-ink/10 p-6 flex flex-col">
-      <div><span class="badge ${badgeKelas[ev.category]}">${ev.category}</span></div>
-      <h3 class="font-display font-bold text-xl leading-snug">${ev.title}</h3>
-      <p class="mt-2 text-ink/75">${ev.desc}</p>
-      <dl class="mt-4 space-y-1 text-sm text-ink/80">
-        <div><dt class="inline font-semibold">Tanggal:</dt> <dd class="inline">${formatTanggal(ev.date)}</dd></div>
-        <div><dt class="inline font-semibold">Waktu:</dt> <dd class="inline">${ev.time}</dd></div>
-        <div><dt class="inline font-semibold">Lokasi:</dt> <dd class="inline">${ev.place}</dd></div>
-        <div><dt class="inline font-semibold">Kuota:</dt> <dd class="inline">${ev.quota} peserta</dd></div>
-      </dl>
-        <div class="mt-auto pt-5">
-        <button type="button" class="btn-daftar ${terdaftar ? 'opacity-60 cursor-default' : ''}"
-                data-id="${ev.id}" ${terdaftar ? "disabled" : ""}>
-          ${terdaftar ? "Sudah Terdaftar" : "Daftar Event"}
-        </button>
-         </div>
-    </article>`;
-}
+  const chipKategori = buatChips(
+    document.getElementById("chipKategori"),
+    kategori.map(function (k) { return { value: k, label: k === "Semua" ? "Semua Kategori" : k }; }),
+    function (v) { state.kategori = v; render(); }, true);
+  const chipStatus = buatChips(
+    document.getElementById("chipStatus"),
+    daftarStatus.map(function (s) { return { value: s, label: s === "Semua" ? "Semua Status" : STATUS_LABEL[s] }; }),
+    function (v) { state.status = v; render(); }, true);
 
-function tampilkanEvent() {
-  const hasil = eventData
-    .filter(ev => kategoriAktif === "Semua" || ev.category === kategoriAktif)
-    .sort((a, b) => a.date.localeCompare(b.date));
+  function render() {
+    const jumlahKat = {}, jumlahStatus = {};
+    kategori.forEach(function (k) {
+      jumlahKat[k] = urut.filter(function (e) { return (k === "Semua" || e.category === k) && (state.status === "Semua" || eventStatus(e) === state.status); }).length;
+    });
+    daftarStatus.forEach(function (s) {
+      jumlahStatus[s] = urut.filter(function (e) { return (s === "Semua" || eventStatus(e) === s) && (state.kategori === "Semua" || e.category === state.kategori); }).length;
+    });
+    chipKategori.perbarui(state.kategori, jumlahKat);
+    chipStatus.perbarui(state.status, jumlahStatus);
 
-  grid.innerHTML = hasil.length
-    ? hasil.map(buatKartu).join("")
-    : `<p class="text-ink/60">Belum ada event pada kategori ini.</p>`;
-  jumlahEl.textContent = `Menampilkan ${hasil.length} dari ${eventData.length} event`;
+    const hasil = urut.filter(function (e) {
+      return (state.kategori === "Semua" || e.category === state.kategori) && (state.status === "Semua" || eventStatus(e) === state.status);
+    });
+    grid.innerHTML = hasil.length
+      ? hasil.map(function (e, i) { return eventCardHTML(e, Math.min(i, 8)); }).join("")
+      : emptyStateHTML("Belum ada event yang cocok", "Coba pilih kategori atau status lain.", true);
+    ringkasan.textContent = "Menampilkan " + hasil.length + " dari " + eventsData.length + " event";
+  }
 
-  filterBox.querySelectorAll("button").forEach(btn => {
-    const aktif = btn.dataset.kategori === kategoriAktif;
-    btn.className = "rounded-full border px-4 py-1.5 text-sm font-semibold transition " +
-      (aktif ? "bg-ink text-white border-ink" : "bg-white text-ink border-ink/20 hover:border-teal hover:text-teal");
-    btn.setAttribute("aria-pressed", aktif);
+  function aturUlang() { state.kategori = "Semua"; state.status = "Semua"; render(); }
+
+  // ----- Detail event -----
+  function bukaDetailEvent(id, pemicu) {
+    const e = eventsData.find(function (x) { return x.id === Number(id); });
+    if (!e) return false;
+    const status = eventStatus(e);
+    tampilkanDetail({
+      image: e.image, judul: e.title, pemicu: pemicu,
+      badges: [badgeKategori(e.category), badgeStatus(status)],
+      fakta: [["calendar", "Tanggal", formatDate(e.date)], ["clock", "Waktu", e.time], ["pin", "Lokasi", e.location]],
+      isi: e.detail,
+      aksi: (status === "selesai" ? "" : '<button type="button" class="btn btn-sun" data-daftar="' + e.id + '">Daftar Event</button>') + TOMBOL_TUTUP_DETAIL,
+      saatTutup: function () { setParams({ detail: null }); }
+    });
+    return true;
+  }
+
+  // ----- Form pendaftaran -----
+  function bukaDaftar(id) {
+    const e = eventsData.find(function (x) { return x.id === Number(id); });
+    if (!e) return;
+    const detail = document.getElementById("detailModal");
+    let asal = document.activeElement;
+    if (detail.classList.contains("is-open")) { asal = Modal.terakhirFokus; Modal.tutup(detail); }
+    pilihan.value = e.title;
+    document.getElementById("pesanError").innerText = "";
+    Modal.buka(modalDaftar, asal);
+  }
+
+  modalDaftar.addEventListener("modal:tutup", function () { form.reset(); });
+
+  // Dijalankan hanya jika validasi (validasi-form.js) lolos
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    const nama = document.getElementById("nama").value.trim();
+    const acara = pilihan.value;
+    Modal.tutup(modalDaftar);
+    toast("Pendaftaran berhasil! " + nama + " terdaftar di " + acara + ".");
   });
-}
 
-// ----- Filter kategori -----
-KATEGORI.forEach(nama => {
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.textContent = nama;
-  btn.dataset.kategori = nama;
-  btn.addEventListener("click", () => { kategoriAktif = nama; tampilkanEvent(); });
-  filterBox.appendChild(btn);
-});
+  // ----- Event klik -----
+  document.getElementById("resetEvent").addEventListener("click", aturUlang);
+  document.addEventListener("click", function (ev) {
+    if (ev.target.closest("[data-reset]")) { aturUlang(); return; }
+    const daftar = ev.target.closest("[data-daftar]");
+    if (daftar && !daftar.disabled) { bukaDaftar(daftar.dataset.daftar); return; }
+    const detail = ev.target.closest("a[data-detail]");
+    if (detail) {
+      ev.preventDefault();
+      if (bukaDetailEvent(detail.dataset.detail, detail)) setParams({ detail: detail.dataset.detail });
+    }
+  });
 
-// ----- Isi pilihan event pada form -----
-eventData.forEach(ev => {
-  const opt = document.createElement("option");
-  opt.value = ev.title;
-  opt.textContent = ev.title;
-  pilihan.appendChild(opt);
-});
-
-// ----- Modal -----
-function bukaModal(namaEvent) {
-  pesanError.textContent = "";
-  pesanError.style.color = "";
-  pilihan.value = namaEvent;
-  modal.style.display = "block";
-  document.body.style.overflow = "hidden";
-  document.getElementById("nama").focus();
-}
-
-function tutupModal() {
-  modal.style.display = "none";
-  document.body.style.overflow = "";
-  form.reset();
-}
-
-grid.addEventListener("click", e => {
-  const btn = e.target.closest(".btn-daftar");
-  if (!btn || btn.disabled) return;
-  const ev = eventData.find(item => item.id === Number(btn.dataset.id));
-  if (ev) bukaModal(ev.title);
-});
-
-const tombolTutup = document.getElementById("tutupModalDaftar");
-tombolTutup.addEventListener("click", tutupModal);
-tombolTutup.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") tutupModal(); });
-modal.addEventListener("click", e => { if (e.target === modal) tutupModal(); });
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && modal.style.display === "block") tutupModal();
-});
-
-// ----- Kirim form -----
-// Handler ini hanya berjalan jika validasi-form.js menyatakan semua isian benar.
-form.addEventListener("submit", e => {
-  e.preventDefault();
-
-  const nama = document.getElementById("nama").value.trim();
-  const ev = eventData.find(item => item.title === pilihan.value);
-  if (ev) sudahDaftar.add(ev.id);
-
-  tutupModal();
-  tampilkanEvent();
-  alert(`Pendaftaran berhasil!\n\nNama: ${nama}\nEvent: ${ev ? ev.title : pilihan.value}`);
-});
-
-tampilkanEvent();
+  render();
+  document.addEventListener("DOMContentLoaded", function () {
+    if (getParam("detail")) bukaDetailEvent(getParam("detail"));
+  });
+})();

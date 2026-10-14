@@ -3,104 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Event Kampus – CampusConnect</title>
+  <title>Event – CampusConnect</title>
+  <meta name="description" content="Agenda dan kegiatan kampus yang bisa kamu ikuti.">
 
-  <!-- Tailwind CSS via CDN (konfigurasi sama dengan index.html) -->
+  <!-- Tailwind CSS via CDN (konfigurasi warna & font ada di tailwind-config.js) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: { ink: '#1B2559', paper: '#F6F7FB', sun: '#F4B63D', teal: '#0E8A8C', coral: '#E4553F' },
-          fontFamily: { display: ['"Bricolage Grotesque"', 'sans-serif'], body: ['"Source Sans 3"', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
+  <script src="tailwind-config.js"></script>
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- style.css yang sama dipakai untuk modal & form -->
+  <!-- CSS tambahan -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-paper text-ink font-body antialiased">
+<body data-page="event" class="bg-paper text-ink font-body antialiased min-h-screen flex flex-col">
+  <!-- Navbar & footer disisipkan oleh layout.js -->
+  <script src="layout.js"></script>
 
-  <!-- ===== NAVBAR ===== -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-ink/10">
-    <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="index.html" class="font-display font-extrabold text-xl">Campus<span class="text-teal">Connect</span></a>
-      <ul class="flex items-center gap-6 text-sm font-semibold">
-        <li><a href="index.html" class="hover:text-teal">Beranda</a></li>
-        <li><a href="index.html#berita" class="hover:text-teal">Berita</a></li>
-        <li><a href="event.html" class="text-teal border-b-2 border-teal pb-1" aria-current="page">Event</a></li>
-        <li><a href="index.html#prestasi" class="hover:text-teal">Prestasi</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <!-- ===== JUDUL HALAMAN ===== -->
-    <section class="bg-ink text-white">
+  <main class="flex-1">
+    <section class="page-hero on-dark">
       <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
-        <h1 class="font-display font-extrabold text-4xl md:text-5xl leading-tight">Event Kampus</h1>
-        <p class="mt-4 text-lg text-white/80 max-w-xl">
-          Seminar, lomba, workshop, dan rekrutmen yang akan datang. Pilih event, lalu daftar langsung dari halaman ini.
-        </p>
+        <h1 class="font-display font-extrabold text-4xl md:text-5xl">Event Kampus</h1>
+        <p class="mt-3 text-lg text-white/80 max-w-2xl">Jangan lewatkan agenda penting kampus bulan ini.</p>
       </div>
     </section>
 
-    <!-- ===== DAFTAR EVENT ===== -->
-    <section id="daftar-event" class="max-w-6xl mx-auto px-4 py-12">
-      <!-- Filter kategori (tombol dibuat oleh event.js) -->
-      <div id="filter-event" class="flex flex-wrap gap-2" role="group" aria-label="Filter kategori event"></div>
-      <p id="jumlah-event" class="mt-4 text-sm text-ink/60" aria-live="polite"></p>
+    <section id="upcoming-events" class="max-w-6xl mx-auto px-4 py-10">
+      <div class="bg-white border border-ink/10 rounded-2xl p-4 sm:p-5 space-y-4">
+        <div>
+          <p id="labelKategori" class="text-sm font-semibold mb-2">Kategori</p>
+          <div id="chipKategori" class="flex flex-wrap gap-2" role="group" aria-labelledby="labelKategori"></div>
+        </div>
+        <div>
+          <p id="labelStatus" class="text-sm font-semibold mb-2">Status</p>
+          <div id="chipStatus" class="flex flex-wrap gap-2" role="group" aria-labelledby="labelStatus"></div>
+        </div>
+        <button id="resetEvent" type="button" class="btn btn-outline" data-icon="reset" data-icon-class="w-4 h-4">Reset Filter</button>
+      </div>
 
-      <div id="event-grid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <p id="ringkasan" class="mt-6 text-sm text-ink/70" aria-live="polite"></p>
+      <div id="eventGrid" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
+
+    <!-- ===== MODAL PENDAFTARAN EVENT (id & kolom dipertahankan) ===== -->
+    <div id="modalPendaftaran" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="judulDaftar">
+      <div class="modal-panel bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto relative p-6 sm:p-8">
+        <button type="button" data-close class="absolute top-3 right-3 icon-btn" aria-label="Tutup form" data-icon="x"></button>
+        <h3 id="judulDaftar" class="modal-title">Form Pendaftaran Event</h3>
+        <p id="pesanError" class="error-text"></p>
+
+        <form id="formEvent">
+          <div class="form-group">
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" id="nama" placeholder="Masukkan nama lengkap" data-autofocus>
+          </div>
+          <div class="form-group">
+            <label for="nim">NIM</label>
+            <input type="text" id="nim" placeholder="Masukkan NIM">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="nama@kampus.ac.id">
+          </div>
+          <div class="form-group">
+            <label for="pilihanEvent">Pilih Event</label>
+            <select id="pilihanEvent">
+              <option value="">-- Pilih Event --</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit">Kirim Pendaftaran</button>
+        </form>
+      </div>
+    </div>
   </main>
 
-  <!-- ===== MODAL PENDAFTARAN ===== -->
-  <div id="modalPendaftaran" class="modal" role="dialog" aria-modal="true" aria-labelledby="judulModal">
-    <div class="modal-content">
-      <span class="close-btn" id="tutupModalDaftar" role="button" aria-label="Tutup form" tabindex="0">&times;</span>
-      <h3 class="modal-title" id="judulModal">Form Pendaftaran Event</h3>
-      <p id="pesanError" class="error-text"></p>
-
-      <form id="formEvent">
-        <div class="form-group">
-          <label for="nama">Nama Lengkap</label>
-          <input type="text" id="nama" placeholder="Masukkan nama lengkap" autocomplete="name">
-        </div>
-        <div class="form-group">
-          <label for="nim">NIM</label>
-          <input type="text" id="nim" placeholder="Masukkan NIM">
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="nama@kampus.ac.id" autocomplete="email">
-        </div>
-        <div class="form-group">
-          <label for="pilihanEvent">Pilih Event</label>
-          <select id="pilihanEvent">
-            <option value="">-- Pilih Event --</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-submit">Kirim Pendaftaran</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="bg-ink text-white/50 text-sm">
-    <div class="max-w-6xl mx-auto px-4 py-4">
-      &copy; 2026 CampusConnect – Portal Informasi Mahasiswa
-    </div>
-  </footer>
-
-  <!-- validasi-form.js dipakai ulang tanpa diubah (membutuhkan #formEvent dan id kolomnya) -->
+  <script src="data.js"></script>
+  <script src="common.js"></script>
+  <script src="page-event.js"></script>
   <script src="validasi-form.js"></script>
-  <script src="event.js"></script>
 </body>
 </html>
