@@ -52,3 +52,49 @@ function renderNews(list) {
 renderNews(newsData);
 
 // Nanti ditambahkan: filter, search, modal, validasi form, counter.
+
+
+/* =========================================
+   JAVASCRIPT TUGAS 11 (MODAL & VALIDASI)
+   ========================================= */
+function bukaModal(namaEvent) {
+    document.getElementById("modalPendaftaran").style.display = "block";
+    document.getElementById("pilihanEvent").value = namaEvent;
+    document.getElementById("pesanError").innerText = ""; 
+}
+
+function tutupModal() {
+    document.getElementById("modalPendaftaran").style.display = "none";
+    document.getElementById("formEvent").reset();
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("modalPendaftaran");
+    if (event.target == modal) {
+        tutupModal();
+    }
+}
+
+document.getElementById("formEvent").addEventListener("submit", function(event) {
+    event.preventDefault(); 
+    
+    let nama = document.getElementById("nama").value.trim();
+    let nim = document.getElementById("nim").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let pilihanEvent = document.getElementById("pilihanEvent").value;
+    let pesanError = document.getElementById("pesanError");
+
+    if (nama === "" || nim === "" || email === "" || pilihanEvent === "") {
+        pesanError.innerText = "Error: Semua kolom wajib diisi!";
+        return;
+    }
+
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        pesanError.innerText = "Error: Format email tidak valid!";
+        return;
+    }
+
+    alert("Pendaftaran Berhasil!\n\nNama: " + nama + "\nNIM: " + nim + "\nEvent: " + pilihanEvent);
+    tutupModal();
+});
