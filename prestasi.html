@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prestasi – CampusConnect</title>
+  <meta name="description" content="Pencapaian mahasiswa dalam akademik, teknologi, kreativitas, dan pengabdian.">
+
+  <!-- Tailwind CSS via CDN (konfigurasi warna & font ada di tailwind-config.js) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="tailwind-config.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS tambahan -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="prestasi" class="bg-paper text-ink font-body antialiased min-h-screen flex flex-col">
+  <!-- Navbar & footer disisipkan oleh layout.js -->
+  <script src="layout.js"></script>
+
+  <main class="flex-1">
+    <section class="page-hero on-dark">
+      <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
+        <h1 class="font-display font-extrabold text-4xl md:text-5xl">Prestasi Mahasiswa</h1>
+        <p class="mt-3 text-lg text-white/80 max-w-2xl">
+          Berbagai pencapaian mahasiswa dalam bidang akademik, teknologi,
+          kreativitas, dan pengabdian kepada masyarakat.
+        </p>
+      </div>
+    </section>
+
+    <section id="prestasi" class="max-w-6xl mx-auto px-4 py-10">
+      <div class="bg-white border border-ink/10 rounded-2xl p-4 sm:p-5 space-y-4">
+        <div>
+          <p id="labelTingkat" class="text-sm font-semibold mb-2">Tingkat kompetisi</p>
+          <div id="chipTingkat" class="flex flex-wrap gap-2" role="group" aria-labelledby="labelTingkat"></div>
+        </div>
+        <div>
+          <p id="labelBidang" class="text-sm font-semibold mb-2">Kategori</p>
+          <div id="chipBidang" class="flex flex-wrap gap-2" role="group" aria-labelledby="labelBidang"></div>
+        </div>
+        <button id="resetPrestasi" type="button" class="btn btn-outline" data-icon="reset" data-icon-class="w-4 h-4">Reset Filter</button>
+      </div>
+
+      <p id="ringkasan" class="mt-6 text-sm text-ink/70" aria-live="polite"></p>
+      <div id="prestasiGrid" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="common.js"></script>
+  <script src="page-prestasi.js"></script>
+</body>
+</html>
