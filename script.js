@@ -51,6 +51,159 @@ function renderNews(list) {
 
 renderNews(newsData);
 
+
+/* =========================================
+   DETAIL LENGKAP 10 BERITA
+   ========================================= */
+
+const newsDetails = {
+  1: `Pendaftaran Kartu Rencana Studi (KRS) Semester Genap dibuka mulai 12 hingga 20 Oktober 2026.
+
+Mahasiswa diharapkan memeriksa mata kuliah yang akan diambil sebelum melakukan pengisian KRS. Pastikan mata kuliah yang dipilih sesuai dengan kurikulum, jumlah SKS yang diperbolehkan, dan persyaratan akademik.
+
+Sebelum menyelesaikan pengisian, periksa kembali seluruh mata kuliah agar tidak terjadi kesalahan. Jika mengalami kendala, mahasiswa dapat menghubungi bagian akademik atau dosen pembimbing akademik.
+
+Catatan: Informasi jadwal dan prosedur ini merupakan contoh konten portal dan perlu disesuaikan dengan pengumuman resmi kampus.`,
+
+  2: `Jadwal Ujian Tengah Semester (UTS) untuk setiap program studi telah dirilis dalam contoh pengumuman akademik ini.
+
+Mahasiswa disarankan memeriksa jadwal ujian masing-masing, termasuk tanggal, jam, mata kuliah, dan lokasi ruang ujian. Persiapkan materi sejak dini agar proses belajar lebih teratur.
+
+Pastikan juga persyaratan ujian dan ketentuan dari dosen telah dipahami. Hindari datang terlambat dan siapkan perlengkapan yang diperlukan sebelum hari ujian.
+
+Catatan: Jadwal aktual harus diperiksa melalui portal akademik atau pengumuman resmi kampus.`,
+
+  3: `Perpustakaan kampus dalam contoh informasi ini memperpanjang jam layanan hingga pukul 21.00 selama masa ujian.
+
+Perpanjangan jam operasional diharapkan membantu mahasiswa yang membutuhkan waktu tambahan untuk membaca referensi, mengerjakan tugas, dan mempersiapkan ujian.
+
+Mahasiswa dapat memanfaatkan koleksi buku, bahan bacaan, serta fasilitas belajar yang tersedia. Tetap jaga ketenangan dan kebersihan agar semua pengunjung dapat belajar dengan nyaman.
+
+Catatan: Jam layanan aktual perlu dikonfirmasi kepada pihak perpustakaan.`,
+
+  4: `Badan Eksekutif Mahasiswa (BEM) mengadakan musyawarah anggota baru untuk membahas arah kegiatan dan program kerja organisasi.
+
+Kegiatan ini dapat menjadi kesempatan bagi pengurus dan anggota baru untuk menyampaikan ide, berdiskusi, serta menentukan prioritas kegiatan selama satu semester.
+
+Partisipasi anggota penting agar program yang disusun sesuai dengan kebutuhan mahasiswa. Melalui musyawarah, organisasi juga dapat membagi tanggung jawab dan memperkuat kerja sama tim.
+
+Catatan: Informasi pelaksanaan kegiatan ini merupakan contoh konten dan perlu dikonfirmasi kepada BEM terkait.`,
+
+  5: `Unit Kegiatan Mahasiswa (UKM) Fotografi membuka kesempatan bagi mahasiswa yang ingin mengembangkan kemampuan fotografi dan kreativitas visual.
+
+Kegiatan UKM dapat mencakup pengenalan komposisi, pencahayaan, teknik mengambil gambar, penyuntingan foto, hingga dokumentasi acara kampus.
+
+Mahasiswa dari berbagai program studi dapat belajar bersama. Kamera profesional bukan satu-satunya syarat untuk memulai karena kamera ponsel juga dapat digunakan untuk berlatih.
+
+Catatan: Persyaratan dan periode pendaftaran harus diperiksa melalui pengumuman resmi UKM Fotografi.`,
+
+  6: `Himpunan mahasiswa menyelenggarakan kegiatan bakti sosial di desa binaan sebagai bentuk kepedulian terhadap masyarakat.
+
+Kegiatan dalam contoh berita ini mencakup bantuan renovasi sekolah dan kegiatan belajar bersama anak-anak selama dua hari. Mahasiswa dapat berkontribusi melalui tenaga, pengetahuan, serta kegiatan edukatif.
+
+Selain memberikan manfaat kepada masyarakat, kegiatan sosial juga membantu mahasiswa mengembangkan kerja sama, komunikasi, dan rasa tanggung jawab.
+
+Catatan: Rincian kegiatan ini merupakan contoh untuk demonstrasi website, bukan laporan kejadian yang telah diverifikasi.`,
+
+  7: `Hackathon Nasional 2026 dalam contoh pengumuman ini membuka kesempatan bagi mahasiswa untuk mengembangkan solusi digital bagi berbagai permasalahan layanan publik.
+
+Peserta dapat membentuk tim beranggotakan tiga hingga empat orang. Tim kemudian menentukan masalah yang ingin diselesaikan, merancang solusi, dan mengembangkan prototipe untuk dipresentasikan.
+
+Kompetisi seperti ini dapat menjadi sarana untuk melatih pemrograman, kreativitas, kolaborasi, serta kemampuan memecahkan masalah.
+
+Sebelum mendaftar, pastikan membaca persyaratan peserta, jadwal, mekanisme seleksi, dan ketentuan hadiah pada penyelenggara resmi.`,
+
+  8: `Tim debat kampus dalam contoh berita ini berhasil melaju ke babak final regional setelah melalui rangkaian pertandingan.
+
+Kompetisi debat melatih mahasiswa untuk menyusun argumen berdasarkan bukti, berpikir kritis, menanggapi pendapat lawan, serta menyampaikan gagasan dengan jelas.
+
+Keberhasilan menuju final dapat menjadi motivasi bagi mahasiswa lain untuk mengembangkan kemampuan komunikasi dan berpikir analitis.
+
+Catatan: Nama tim, hasil pertandingan, dan jadwal final perlu disesuaikan dengan hasil kompetisi yang benar-benar terjadi.`,
+
+  9: `Beasiswa Prestasi Semester Genap dalam contoh informasi ini ditujukan bagi mahasiswa yang memenuhi persyaratan akademik, termasuk IPK minimal 3,50.
+
+Calon pendaftar dapat mulai menyiapkan transkrip nilai, surat rekomendasi dosen, serta dokumen pendukung lainnya sesuai ketentuan penyelenggara.
+
+Sebelum mengirimkan berkas, periksa kembali kelengkapan dokumen, batas waktu pendaftaran, kriteria penerima, dan tahapan seleksi.
+
+Catatan: Persyaratan dan ketersediaan beasiswa aktual harus dikonfirmasi melalui penyelenggara resmi.`,
+
+  10: `Informasi Beasiswa Unggulan Daerah dalam contoh berita ini menyampaikan perpanjangan batas pendaftaran hingga 30 Oktober 2026 bagi mahasiswa yang memenuhi kriteria program.
+
+Mahasiswa yang berminat sebaiknya memeriksa cakupan penerima, persyaratan domisili, prestasi akademik, dokumen administrasi, dan mekanisme pengajuan.
+
+Perpanjangan waktu dapat memberikan kesempatan tambahan untuk melengkapi berkas. Namun, calon penerima tetap perlu memastikan bahwa informasi tersebut benar-benar diumumkan oleh penyelenggara resmi.
+
+Catatan: Tanggal dan ketentuan pada konten contoh ini harus diverifikasi sebelum dipublikasikan sebagai informasi aktual.`
+};
+
+/* =========================================
+   FUNGSI BACA SELENGKAPNYA
+   ========================================= */
+
+const detailModal = document.getElementById("detailBeritaModal");
+
+function bukaDetailBerita(id) {
+  const berita = newsData.find(item => item.id === Number(id));
+
+  if (!berita) return;
+
+  document.getElementById("detailGambar").src = berita.image;
+  document.getElementById("detailGambar").alt = berita.title;
+  document.getElementById("detailKategori").textContent = berita.category;
+  document.getElementById("detailTanggal").textContent =
+    formatDate(berita.date);
+  document.getElementById("detailJudul").textContent = berita.title;
+  document.getElementById("detailIsi").textContent =
+    newsDetails[berita.id] || berita.summary;
+
+  detailModal.classList.remove("hidden");
+  detailModal.classList.add("flex");
+  document.body.style.overflow = "hidden";
+}
+
+function tutupDetailBerita() {
+  detailModal.classList.add("hidden");
+  detailModal.classList.remove("flex");
+  document.body.style.overflow = "";
+}
+
+// Klik tombol Baca Selengkapnya
+document.getElementById("news-grid").addEventListener("click", function(event) {
+  const tombol = event.target.closest(".read-more");
+
+  if (tombol) {
+    bukaDetailBerita(tombol.dataset.id);
+  }
+});
+
+// Tombol tutup di bagian atas dan bawah
+document.getElementById("tutupDetailBerita").addEventListener(
+  "click",
+  tutupDetailBerita
+);
+
+document.getElementById("tutupDetailBawah").addEventListener(
+  "click",
+  tutupDetailBerita
+);
+
+// Tutup jika mengeklik area gelap di luar modal
+detailModal.addEventListener("click", function(event) {
+  if (event.target === detailModal) {
+    tutupDetailBerita();
+  }
+});
+
+// Tutup menggunakan tombol Escape
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape" && !detailModal.classList.contains("hidden")) {
+    tutupDetailBerita();
+  }
+});
+
+
 // Nanti ditambahkan: filter, search, modal, validasi form, counter.
 
 

@@ -36,10 +36,56 @@
         <li><a href="#beranda" class="hover:text-teal">Beranda</a></li>
         <li><a href="#berita" class="hover:text-teal">Berita</a></li>
         <li><a href="#upcoming-events" class="hover:text-teal">Event</a></li>
-        <li><a href="#Prestasi" class="hover:text-teal">Prestasi</a></li>
+        <li><a href="#prestasi" class="hover:text-teal">Prestasi</a></li>
       </ul>
     </nav>
   </header>
+
+  
+<!-- ===== MODAL BACA SELENGKAPNYA ===== -->
+<div id="detailBeritaModal"
+     class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+
+  <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+
+    <button type="button"
+            id="tutupDetailBerita"
+            class="absolute top-3 right-3 z-10 bg-white rounded-full w-10 h-10 text-2xl shadow"
+            aria-label="Tutup berita">
+      &times;
+    </button>
+
+    <img id="detailGambar"
+         src=""
+         alt=""
+         class="w-full h-56 sm:h-72 object-cover">
+
+    <div class="p-6 sm:p-8">
+      <span id="detailKategori"
+            class="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-teal text-white">
+      </span>
+
+      <p id="detailTanggal" class="mt-3 text-sm text-gray-500"></p>
+
+      <h2 id="detailJudul"
+          class="font-display font-extrabold text-2xl sm:text-3xl mt-3">
+      </h2>
+
+      <div id="detailIsi"
+           class="mt-5 text-gray-700 leading-7 whitespace-pre-line">
+      </div>
+
+      
+      <button type="button"
+              id="tutupDetailBawah"
+              class="mt-4 bg-ink text-white px-3 py-2 text-sm rounded-lg hover:opacity-90">
+        Kembali ke Berita
+      </button>
+
+    </div>
+  </div>
+</div>
+
 
   <main>
     <!-- ===== 1. HOMEPAGE / HERO ===== -->
@@ -83,9 +129,9 @@
      <!-- ==========================================
          SECTION UPCOMING EVENTS & MODAL (Tugas 8-10)
          ========================================== -->
-    <section id="upcoming-events" class="section-container">
+    <section id="upcoming-events" class="scroll-mt-20 max-w-6xl mx-auto px-4 py-16">
         <div class="section-header">
-            <h2 class="section-title">Upcoming Events</h2>
+            <h2 class="font-display font-extrabold text-3xl md:text-4xl">Upcoming Events</h2>
             <p class="section-subtitle">Jangan lewatkan agenda penting kampus bulan ini.</p>
         </div>
         <div class="events-grid">
@@ -158,6 +204,163 @@
     </div>
   </main>
 
+  
+ 
+  <!-- BAGIAN PRESTASI -->
+  <section id="prestasi" class="scroll-mt-20 max-w-6xl mx-auto px-4 py-16">
+
+    <!-- Judul Prestasi -->
+    <div class="mb-10 text-left">
+      <h2 class="font-display font-extrabold text-3xl md:text-4xl">
+        Prestasi Mahasiswa
+      </h2>
+
+      <p class="mt-4 text-base text-gray-600 md:text-lg">
+        Berbagai pencapaian mahasiswa dalam bidang akademik, teknologi,
+        kreativitas, dan pengabdian kepada masyarakat.
+      </p>
+    </div>
+
+
+    <!-- Grid Prestasi -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- Prestasi 1 -->
+      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+        <div class="flex h-40 items-center justify-center bg-ink text-6xl transition duration-300 group-hover:scale-105">
+          💻
+        </div>
+
+        <div class="p-6">
+          <span class="rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold text-teal">
+            Teknologi
+          </span>
+
+          <h3 class="mt-4 text-lg font-bold text-ink">
+            Kompetisi Pemrograman
+          </h3>
+
+          <p class="mt-2 text-sm leading-relaxed text-gray-600">
+            Ajang untuk mengembangkan kemampuan algoritma, logika,
+            dan pemecahan masalah melalui pemrograman.
+          </p>
+        </div>
+      </article>
+
+      <!-- Prestasi 2 -->
+      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+        <div class="flex h-40 items-center justify-center bg-teal text-6xl transition duration-300 group-hover:scale-105">
+          🎨
+        </div>
+
+        <div class="p-6">
+          <span class="rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold text-teal">
+            Kreativitas
+          </span>
+
+          <h3 class="mt-4 text-lg font-bold text-ink">
+            Lomba UI/UX Design
+          </h3>
+
+          <p class="mt-2 text-sm leading-relaxed text-gray-600">
+            Pengembangan desain antarmuka dan pengalaman pengguna
+            yang kreatif, menarik, serta mudah digunakan.
+          </p>
+        </div>
+      </article>
+
+      <!-- Prestasi 3 -->
+      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+        <div class="flex h-40 items-center justify-center bg-amber-400 text-6xl transition duration-300 group-hover:scale-105">
+          🥇
+        </div>
+
+        <div class="p-6">
+          <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
+            Akademik
+          </span>
+
+          <h3 class="mt-4 text-lg font-bold text-ink">
+            Olimpiade Sains Mahasiswa
+          </h3>
+
+          <p class="mt-2 text-sm leading-relaxed text-gray-600">
+            Kompetisi akademik untuk menguji pengetahuan,
+            ketelitian, dan kemampuan berpikir kritis mahasiswa.
+          </p>
+        </div>
+      </article>
+
+      <!-- Prestasi 4 -->
+      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+        <div class="flex h-40 items-center justify-center bg-rose-400 text-6xl transition duration-300 group-hover:scale-105">
+          🚀
+        </div>
+
+        <div class="p-6">
+          <span class="rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-700">
+            Inovasi
+          </span>
+
+          <h3 class="mt-4 text-lg font-bold text-ink">
+            Kompetisi Inovasi Digital
+          </h3>
+
+          <p class="mt-2 text-sm leading-relaxed text-gray-600">
+            Ajang pengembangan ide dan solusi digital untuk
+            menjawab berbagai permasalahan di masyarakat.
+          </p>
+        </div>
+      </article>
+
+      <!-- Prestasi 5 -->
+      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+        <div class="flex h-40 items-center justify-center bg-indigo-500 text-6xl transition duration-300 group-hover:scale-105">
+          🎤
+        </div>
+
+        <div class="p-6">
+          <span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
+            Komunikasi
+          </span>
+
+          <h3 class="mt-4 text-lg font-bold text-ink">
+            Kompetisi Debat Mahasiswa
+          </h3>
+
+          <p class="mt-2 text-sm leading-relaxed text-gray-600">
+            Melatih kemampuan menyampaikan argumen, berpikir kritis,
+            dan berkomunikasi secara terstruktur.
+          </p>
+        </div>
+      </article>
+
+      <!-- Prestasi 6 -->
+      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+        <div class="flex h-40 items-center justify-center bg-emerald-500 text-6xl transition duration-300 group-hover:scale-105">
+          🌱
+        </div>
+
+        <div class="p-6">
+          <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+            Pengabdian
+          </span>
+
+          <h3 class="mt-4 text-lg font-bold text-ink">
+            Program Inovasi Sosial
+          </h3>
+
+          <p class="mt-2 text-sm leading-relaxed text-gray-600">
+            Kegiatan mahasiswa untuk menciptakan solusi kreatif
+            yang memberikan manfaat bagi masyarakat.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+  
+
   <!-- ===== FOOTER ===== -->
   <footer class="bg-ink text-white/70 text-sm">
     <div class="max-w-6xl mx-auto px-4 py-8">
@@ -169,3 +372,5 @@
   <script src="script.js"></script>
 </body>
 </html>
+
+
