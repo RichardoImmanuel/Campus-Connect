@@ -250,4 +250,58 @@ document.getElementById("formEvent").addEventListener("submit", function(event) 
 
     alert("Pendaftaran Berhasil!\n\nNama: " + nama + "\nNIM: " + nim + "\nEvent: " + pilihanEvent);
     tutupModal();
-});
+    });
+
+  
+  // ===== COUNTER STATISTIK CAMPUSCONNECT =====
+
+  function animasiCounter(element, target) {
+    if (!element) return;
+
+    const durasi = 1200;
+    const waktuMulai = performance.now();
+
+    function update(waktuSekarang) {
+      const progress = Math.min(
+        (waktuSekarang - waktuMulai) / durasi,
+        1
+      );
+
+      const angka = Math.floor(progress * target);
+
+      element.textContent = angka.toLocaleString("id-ID");
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = target.toLocaleString("id-ID");
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  function perbaruiStatistik() {
+    // Menghitung kartu kegiatan yang tersedia
+    const jumlahKegiatan =
+      document.querySelectorAll("#upcoming-events .event-card").length;
+
+    // Menghitung kartu prestasi yang tersedia
+    const jumlahPrestasi =
+      document.querySelectorAll("#prestasi article").length;
+
+    // Menampilkan jumlah kegiatan dan prestasi
+    animasiCounter(
+      document.getElementById("counterKegiatan"),
+      jumlahKegiatan
+    );
+
+    animasiCounter(
+      document.getElementById("counterPrestasi"),
+      jumlahPrestasi
+  );
+}
+
+// Jalankan setelah halaman selesai dimuat
+document.addEventListener("DOMContentLoaded", perbaruiStatistik);
+
