@@ -4,19 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CampusConnect – Portal Informasi Mahasiswa</title>
+  <meta name="description" content="Berita, event, dan prestasi mahasiswa dalam satu portal.">
 
-  <!-- Tailwind CSS via CDN -->
+  <!-- Tailwind CSS via CDN (konfigurasi warna & font ada di tailwind-config.js) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: { ink: '#1B2559', paper: '#F6F7FB', sun: '#F4B63D', teal: '#0E8A8C', coral: '#E4553F' },
-          fontFamily: { display: ['"Bricolage Grotesque"', 'sans-serif'], body: ['"Source Sans 3"', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
+  <script src="tailwind-config.js"></script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,72 +18,15 @@
   <!-- CSS tambahan -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-paper text-ink font-body antialiased">
+<body data-page="dashboard" class="bg-paper text-ink font-body antialiased min-h-screen flex flex-col">
+  <!-- Navbar & footer disisipkan oleh layout.js -->
+  <script src="layout.js"></script>
 
-  <!-- ===== NAVBAR ===== -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-ink/10">
-    <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="#beranda" class="font-display font-extrabold text-xl">Campus<span class="text-teal">Connect</span></a>
-      <ul class="flex items-center gap-6 text-sm font-semibold">
-        <li><a href="#beranda" class="hover:text-teal">Beranda</a></li>
-        <li><a href="#berita" class="hover:text-teal">Berita</a></li>
-        <li><a href="event.html" class="hover:text-teal">Event</a></li>
-        <li><a href="#prestasi" class="hover:text-teal">Prestasi</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  
-<!-- ===== MODAL BACA SELENGKAPNYA ===== -->
-<div id="detailBeritaModal"
-     class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
-
-  <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
-
-    <button type="button"
-            id="tutupDetailBerita"
-            class="absolute top-3 right-3 z-10 bg-white rounded-full w-10 h-10 text-2xl shadow"
-            aria-label="Tutup berita">
-      &times;
-    </button>
-
-    <img id="detailGambar"
-         src=""
-         alt=""
-         class="w-full h-56 sm:h-72 object-cover">
-
-    <div class="p-6 sm:p-8">
-      <span id="detailKategori"
-            class="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-teal text-white">
-      </span>
-
-      <p id="detailTanggal" class="mt-3 text-sm text-gray-500"></p>
-
-      <h2 id="detailJudul"
-          class="font-display font-extrabold text-2xl sm:text-3xl mt-3">
-      </h2>
-
-      <div id="detailIsi"
-           class="mt-5 text-gray-700 leading-7 whitespace-pre-line">
-      </div>
-
-      
-      <button type="button"
-              id="tutupDetailBawah"
-              class="mt-4 bg-ink text-white px-3 py-2 text-sm rounded-lg hover:opacity-90">
-        Kembali ke Berita
-      </button>
-
-    </div>
-  </div>
-</div>
-
-
-  <main>
-    <!-- ===== 1. HOMEPAGE / HERO ===== -->
-    <section id="beranda" class="bg-ink text-white">
-      <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-5 gap-10 items-center">
-        <div class="md:col-span-3">
+  <main class="flex-1">
+    <!-- ===== HERO ===== -->
+    <section class="bg-ink text-white on-dark">
+      <div class="max-w-6xl mx-auto px-4 pt-14 pb-24 md:pt-20 md:pb-28 grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
+        <div class="lg:col-span-3">
           <h1 class="font-display font-extrabold text-4xl md:text-6xl leading-tight">
             Semua kabar kampus, dalam satu tempat.
           </h1>
@@ -99,375 +34,65 @@
             CampusConnect membantu mahasiswa mengikuti berita akademik, kegiatan organisasi,
             kompetisi, dan info beasiswa tanpa harus bertanya ke banyak grup chat.
           </p>
-          <a href="#berita" class="inline-block mt-8 bg-sun text-ink font-semibold px-6 py-3 rounded-lg hover:brightness-95">
-            Lihat berita terbaru
-          </a>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="berita.html" class="btn btn-sun px-6">Lihat berita terbaru</a>
+            <a href="event.html" class="btn btn-light px-6">Lihat event mendatang</a>
+          </div>
         </div>
-        <div class="md:col-span-2 hero-card bg-white/10 border border-white/20 rounded-2xl p-6">
-          <p class="font-display font-bold text-xl">Yang ada di portal ini</p>
-          <ul class="mt-4 space-y-3 text-white/90">
-            <li class="flex gap-3"><span class="w-2 h-2 mt-2 rounded-full bg-sun"></span>Berita akademik &amp; organisasi</li>
-            <li class="flex gap-3"><span class="w-2 h-2 mt-2 rounded-full bg-teal"></span>Info kompetisi &amp; beasiswa</li>
-            <li class="flex gap-3"><span class="w-2 h-2 mt-2 rounded-full bg-coral"></span>Agenda &amp; prestasi mahasiswa</li>
-          </ul>
-        </div>
+
+        <aside class="lg:col-span-2 hero-card bg-white/10 border border-white/20 rounded-2xl p-6" aria-labelledby="judulPengumuman">
+          <h2 id="judulPengumuman" class="font-display font-bold text-xl flex items-center gap-2">
+            <span data-icon="megaphone" data-icon-class="w-5 h-5 text-sun"></span>Pengumuman penting
+          </h2>
+          <ul id="pengumuman" class="mt-4 divide-y divide-white/15"></ul>
+        </aside>
       </div>
     </section>
 
-    <!-- ===== 2. BERITA TERBARU ===== -->
-    <section id="berita" class="max-w-6xl mx-auto px-4 py-16">
-      <h2 class="font-display font-extrabold text-3xl md:text-4xl">Berita Terbaru</h2>
-      <p class="mt-2 text-ink/70">Informasi terkini dari lingkungan kampus.</p>
-
-      <!-- Nanti: tempat filter kategori & search (tugas 4 & 5) -->
-
-      <!-- Kartu berita dibuat otomatis oleh js/script.js -->
-      <div id="news-grid" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <!-- ===== STATISTIK ===== -->
+    <section id="statistik" class="max-w-6xl mx-auto px-4 -mt-14 relative z-10" aria-label="Ringkasan statistik">
+      <div id="statTiles" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
     </section>
 
-    <!-- Tugas 8, 9, 10, 11 -->
-     <!-- ==========================================
-         SECTION UPCOMING EVENTS & MODAL (Tugas 8-10)
-         ========================================== -->
-    <section id="upcoming-events" class="scroll-mt-20 max-w-6xl mx-auto px-4 py-16">
-        <div class="section-header">
-            <h2 class="font-display font-extrabold text-3xl md:text-4xl">Upcoming Events</h2>
-            <p class="section-subtitle">Jangan lewatkan agenda penting kampus bulan ini.</p>
+    <!-- ===== BERITA TERBARU ===== -->
+    <section id="berita-terbaru" class="max-w-6xl mx-auto px-4 pt-16 pb-6">
+      <div class="flex flex-wrap items-end justify-between gap-x-6">
+        <div>
+          <h2 class="font-display font-extrabold text-3xl md:text-4xl">Berita Terbaru</h2>
+          <p class="mt-2 text-ink/70">Informasi terkini dari lingkungan kampus.</p>
         </div>
-        <div class="events-grid">
-            <div class="event-card">
-                <span class="badge badge-akademik">Akademik</span>
-                <h3 class="event-title">Seminar Cybersecurity & Forensik</h3>
-                <p class="event-date">📅 20 Okt 2026</p>
-                <button class="btn-daftar" onclick="bukaModal('Seminar Cybersecurity & Forensik')">Daftar Event</button>
-            </div>
-            <div class="event-card">
-                <span class="badge badge-kompetisi">Kompetisi</span>
-                <h3 class="event-title">Lomba UI/UX Design Nasional</h3>
-                <p class="event-date">📅 25 Okt 2026</p>
-                <button class="btn-daftar" onclick="bukaModal('Lomba UI/UX Design Nasional')">Daftar Event</button>
-            </div>
-            <div class="event-card">
-                <span class="badge badge-akademik">Akademik</span>
-                <h3 class="event-title">Workshop Web Development</h3>
-                <p class="event-date">📅 01 Nov 2026</p>
-                <button class="btn-daftar" onclick="bukaModal('Workshop Web Development')">Daftar Event</button>
-            </div>
-            <div class="event-card">
-                <span class="badge badge-organisasi">Organisasi</span>
-                <h3 class="event-title">Open Recruitment BEM Fakultas</h3>
-                <p class="event-date">📅 10 Nov 2026</p>
-                <button class="btn-daftar" onclick="bukaModal('Open Recruitment BEM Fakultas')">Daftar Event</button>
-            </div>
-            <div class="event-card">
-                <span class="badge badge-beasiswa">Beasiswa</span>
-                <h3 class="event-title">Sosialisasi Beasiswa LPDP</h3>
-                <p class="event-date">📅 15 Nov 2026</p>
-                <button class="btn-daftar" onclick="bukaModal('Sosialisasi Beasiswa LPDP')">Daftar Event</button>
-            </div>
-        </div>
+        <a href="berita.html" class="link-more">Lihat semua berita</a>
+      </div>
+      <div id="dashBerita" class="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-6"></div>
     </section>
 
-    <div id="modalPendaftaran" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="tutupModal()">&times;</span>
-            <h3 class="modal-title">Form Pendaftaran Event</h3>
-            <p id="pesanError" class="error-text"></p>
-            
-            <form id="formEvent">
-                <div class="form-group">
-                    <label for="nama">Nama Lengkap</label>
-                    <input type="text" id="nama" placeholder="Masukkan nama lengkap">
-                </div>
-                <div class="form-group">
-                    <label for="nim">NIM</label>
-                    <input type="text" id="nim" placeholder="Masukkan NIM">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="nama@kampus.ac.id">
-                </div>
-                <div class="form-group">
-                    <label for="pilihanEvent">Pilih Event</label>
-                    <select id="pilihanEvent">
-                        <option value="">-- Pilih Event --</option>
-                        <option value="Seminar Cybersecurity & Forensik">Seminar Cybersecurity & Forensik</option>
-                        <option value="Lomba UI/UX Design Nasional">Lomba UI/UX Design Nasional</option>
-                        <option value="Workshop Web Development">Workshop Web Development</option>
-                        <option value="Open Recruitment BEM Fakultas">Open Recruitment BEM Fakultas</option>
-                        <option value="Sosialisasi Beasiswa LPDP">Sosialisasi Beasiswa LPDP</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-submit">Kirim Pendaftaran</button>
-            </form>
+    <!-- ===== EVENT MENDATANG ===== -->
+    <section id="event-mendatang" class="bg-white mt-12">
+      <div class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div>
+          <h2 class="font-display font-extrabold text-3xl md:text-4xl">Event Mendatang</h2>
+          <p class="mt-2 text-ink/70">Jangan lewatkan agenda penting kampus bulan ini.</p>
+          <a href="event.html" class="btn btn-ink mt-6">Lihat semua event</a>
         </div>
-    </div>
+        <div id="dashEvent" class="lg:col-span-2 min-w-0 space-y-4"></div>
+      </div>
+    </section>
+
+    <!-- ===== PRESTASI TERBARU ===== -->
+    <section id="prestasi-terbaru" class="max-w-6xl mx-auto px-4 py-16">
+      <div class="flex flex-wrap items-end justify-between gap-x-6">
+        <div>
+          <h2 class="font-display font-extrabold text-3xl md:text-4xl">Prestasi Mahasiswa</h2>
+          <p class="mt-2 text-ink/70">Pencapaian terbaru mahasiswa di tingkat universitas hingga internasional.</p>
+        </div>
+        <a href="prestasi.html" class="link-more">Lihat semua prestasi</a>
+      </div>
+      <div id="dashPrestasi" class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
   </main>
 
-  
-  <!-- BAGIAN PRESTASI -->
-  <section id="prestasi" class="scroll-mt-20 max-w-6xl mx-auto px-4 py-16">
-
-    <!-- Judul Prestasi -->
-    <div class="mb-10 text-left">
-      <h2 class="font-display font-extrabold text-3xl md:text-4xl text-ink">
-        Prestasi Mahasiswa
-      </h2>
-
-      <p class="mt-4 text-base text-gray-600 md:text-lg">
-        Berbagai pencapaian mahasiswa dalam bidang akademik, teknologi,
-        kreativitas, dan pengabdian kepada masyarakat.
-      </p>
-    </div>
-
-    <!-- Grid Prestasi -->
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-      <!-- Prestasi 1: Kompetisi Pemrograman -->
-      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-        <div class="h-48 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80"
-            alt="Mahasiswa sedang melakukan pemrograman di komputer"
-            loading="lazy"
-            class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-          >
-        </div>
-
-        <div class="p-6">
-          <span class="inline-block rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold text-teal">
-            Teknologi
-          </span>
-
-          <h3 class="mt-4 text-lg font-bold text-ink">
-            Kompetisi Pemrograman
-          </h3>
-
-          <p class="mt-2 text-sm leading-relaxed text-gray-600">
-            Ajang untuk mengembangkan kemampuan algoritma, logika,
-            dan pemecahan masalah melalui pemrograman.
-          </p>
-        </div>
-      </article>
-
-      <!-- Prestasi 2: Lomba UI/UX Design -->
-      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-        <div class="h-48 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=900&q=80"
-            alt="Proses kreatif desain antarmuka dan UI UX"
-            loading="lazy"
-            class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-          >
-        </div>
-
-        <div class="p-6">
-          <span class="inline-block rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-600">
-            Kreativitas
-          </span>
-
-          <h3 class="mt-4 text-lg font-bold text-ink">
-            Lomba UI/UX Design
-          </h3>
-
-          <p class="mt-2 text-sm leading-relaxed text-gray-600">
-            Pengembangan desain antarmuka dan pengalaman pengguna
-            yang kreatif, menarik, serta mudah digunakan.
-          </p>
-        </div>
-      </article>
-
-      <!-- Prestasi 3: Olimpiade Sains -->
-      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-        <div class="h-48 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=80"
-            alt="Suasana acara dan penghargaan kompetisi akademik"
-            loading="lazy"
-            class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-          >
-        </div>
-
-        <div class="p-6">
-          <span class="inline-block rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
-            Akademik
-          </span>
-
-          <h3 class="mt-4 text-lg font-bold text-ink">
-            Olimpiade Sains Mahasiswa
-          </h3>
-
-          <p class="mt-2 text-sm leading-relaxed text-gray-600">
-            Kompetisi akademik untuk menguji pengetahuan,
-            ketelitian, dan kemampuan berpikir kritis mahasiswa.
-          </p>
-        </div>
-      </article>
-
-      <!-- Prestasi 4: Inovasi Digital -->
-      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-        <div class="h-48 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80"
-            alt="Robot sebagai contoh inovasi teknologi digital"
-            loading="lazy"
-            class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-          >
-        </div>
-
-        <div class="p-6">
-          <span class="inline-block rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-700">
-            Inovasi
-          </span>
-
-          <h3 class="mt-4 text-lg font-bold text-ink">
-            Kompetisi Inovasi Digital
-          </h3>
-
-          <p class="mt-2 text-sm leading-relaxed text-gray-600">
-            Ajang pengembangan ide dan solusi digital untuk
-            menjawab berbagai permasalahan di masyarakat.
-          </p>
-        </div>
-      </article>
-
-      <!-- Prestasi 5: Debat Mahasiswa -->
-      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-        <div class="h-48 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=900&q=80"
-            alt="Pembicara menyampaikan argumen di depan audiens"
-            loading="lazy"
-            class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-          >
-        </div>
-
-        <div class="p-6">
-          <span class="inline-block rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
-            Komunikasi
-          </span>
-
-          <h3 class="mt-4 text-lg font-bold text-ink">
-            Kompetisi Debat Mahasiswa
-          </h3>
-
-          <p class="mt-2 text-sm leading-relaxed text-gray-600">
-            Melatih kemampuan menyampaikan argumen, berpikir kritis,
-            dan berkomunikasi secara terstruktur.
-          </p>
-        </div>
-      </article>
-
-      <!-- Prestasi 6: Inovasi Sosial -->
-      <article class="group overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-        <div class="h-48 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=80"
-            alt="Kegiatan berkebun dan kepedulian terhadap lingkungan"
-            loading="lazy"
-            class="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-          >
-        </div>
-
-        <div class="p-6">
-          <span class="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-            Pengabdian
-          </span>
-
-          <h3 class="mt-4 text-lg font-bold text-ink">
-            Program Inovasi Sosial
-          </h3>
-
-          <p class="mt-2 text-sm leading-relaxed text-gray-600">
-            Kegiatan mahasiswa untuk menciptakan solusi kreatif
-            yang memberikan manfaat bagi masyarakat.
-          </p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ===== COUNTER STATISTIK CAMPUSCONNECT ===== -->
-  <section id="statistik" class="bg-white py-14">
-  <div class="mx-auto max-w-6xl px-4">
-
-    <!-- Judul -->
-    <div class="mb-10 text-center">
-      <h2 class="font-display text-3xl font-extrabold text-ink md:text-4xl">
-        Aktivitas dan Prestasi
-      </h2>
-    </div>
-
-    <!-- Kartu Counter -->
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-
-        <!-- Total Kegiatan -->
-        <div class="rounded-2xl border border-ink/10 bg-paper p-8 text-center transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-teal/10 text-3xl">
-            📅
-          </div>
-
-          <p class="mt-4 text-4xl font-extrabold text-ink">
-            <span id="counterKegiatan">0</span>
-            <span class="text-teal">+</span>
-          </p>
-
-          <h3 class="mt-2 font-semibold text-ink">
-            Total Kegiatan
-          </h3>
-        </div>
-
-        <!-- Total Prestasi -->
-        <div class="rounded-2xl border border-ink/10 bg-paper p-8 text-center transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-sun/20 text-3xl">
-            🏆
-          </div>
-
-          <p class="mt-4 text-4xl font-extrabold text-ink">
-            <span id="counterPrestasi">0</span>
-            <span class="text-teal">+</span>
-          </p>
-
-          <h3 class="mt-2 font-semibold text-ink">
-            Total Prestasi
-          </h3>
-        </div>
-
-        <!-- Total Peserta -->
-        <div class="rounded-2xl border border-ink/10 bg-paper p-8 text-center transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-coral/10 text-3xl">
-            👥
-          </div>
-
-          <p class="mt-4 text-4xl font-extrabold text-ink">
-            <span id="counterPeserta">0</span>
-            <span class="text-teal">+</span>
-          </p>
-
-          <h3 class="mt-2 font-semibold text-ink">
-            Total Peserta
-          </h3>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="bg-ink text-white/50 text-sm">
-    <div class="max-w-6xl mx-auto px-4 py-4">
-      &copy; 2026 CampusConnect – Portal Informasi Mahasiswa
-    </div>
-  </footer>
-
-  <!-- JavaScript -->
-  <script src="script.js"></script>
-  <script src="validasi-form.js"></script>
-  <script src="prestasi-tambahan.js"></script>
+  <script src="data.js"></script>
+  <script src="common.js"></script>
+  <script src="page-dashboard.js"></script>
 </body>
 </html>
-
-
